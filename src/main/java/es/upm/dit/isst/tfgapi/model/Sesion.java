@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -60,6 +62,16 @@ public class Sesion {
         return tfgs;
     }
 
+    @JsonGetter("tfgs")
+    public String[] getEmailsTfgs() {
+        if (tfgs != null) {
+            return tfgs.stream().map(TFG::getAlumno).toArray(String[]::new);
+        } else {
+            return new String[0];
+        }   
+    }
+
+    @JsonProperty("tfgs")
     public void setTfgs(List<TFG> tfgs) {
         this.tfgs = tfgs;
     }

@@ -18,15 +18,19 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class TFG {
+
     @Id @Email private String alumno;
     @Email @NotEmpty private String tutor;
     @NotEmpty private String titulo;
     private String resumen;
-    private Estado status;
+    private Estado estado;
     @JsonIgnore @Lob byte[] memoria;
     @PositiveOrZero @DecimalMax("10.0") Double calificacion;
+    Boolean matriculaHonor;
     @ManyToOne Sesion sesion;
+
     //getters, setters, equals, toString, hashcode
+    
     public String getAlumno() {
         return alumno;
     }
@@ -51,11 +55,11 @@ public class TFG {
     public void setResumen(String resumen) {
         this.resumen = resumen;
     }
-    public Estado getStatus() {
-        return status;
+    public Estado getEstado() {
+        return estado;
     }
-    public void setStatus(Estado status) {
-        this.status = status;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
     public byte[] getMemoria() {
         return memoria;
@@ -80,18 +84,28 @@ public class TFG {
     public void setSesion(Sesion sesion) {
         this.sesion = sesion;
     }
+    
     public TFG(@Email String alumno, @Email @NotEmpty String tutor, @NotEmpty String titulo, String resumen,
-            Estado status, byte[] memoria, @PositiveOrZero @DecimalMax("10.0") Double calificacion, Sesion sesion) {
+            Estado estado, byte[] memoria, @PositiveOrZero @DecimalMax("10.0") Double calificacion,
+            Boolean matriculaHonor, Sesion sesion) {
         this.alumno = alumno;
         this.tutor = tutor;
         this.titulo = titulo;
         this.resumen = resumen;
-        this.status = status;
+        this.estado = estado;
         this.memoria = memoria;
         this.calificacion = calificacion;
+        this.matriculaHonor = matriculaHonor;
         this.sesion = sesion;
     }
     public TFG() {
+    }
+    
+    public Boolean getMatriculaHonor() {
+        return matriculaHonor;
+    }
+    public void setMatriculaHonor(Boolean matriculaHonor) {
+        this.matriculaHonor = matriculaHonor;
     }
     @Override
     public int hashCode() {
@@ -101,8 +115,9 @@ public class TFG {
         result = prime * result + ((tutor == null) ? 0 : tutor.hashCode());
         result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
         result = prime * result + ((resumen == null) ? 0 : resumen.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + ((estado == null) ? 0 : estado.hashCode());
         result = prime * result + ((calificacion == null) ? 0 : calificacion.hashCode());
+        result = prime * result + ((matriculaHonor == null) ? 0 : matriculaHonor.hashCode());
         result = prime * result + ((sesion == null) ? 0 : sesion.hashCode());
         return result;
     }
@@ -135,12 +150,17 @@ public class TFG {
                 return false;
         } else if (!resumen.equals(other.resumen))
             return false;
-        if (status != other.status)
+        if (estado != other.estado)
             return false;
         if (calificacion == null) {
             if (other.calificacion != null)
                 return false;
         } else if (!calificacion.equals(other.calificacion))
+            return false;
+        if (matriculaHonor == null) {
+            if (other.matriculaHonor != null)
+                return false;
+        } else if (!matriculaHonor.equals(other.matriculaHonor))
             return false;
         if (sesion == null) {
             if (other.sesion != null)
@@ -152,7 +172,8 @@ public class TFG {
     @Override
     public String toString() {
         return "TFG [alumno=" + alumno + ", tutor=" + tutor + ", titulo=" + titulo + ", resumen=" + resumen
-                + ", status=" + status + ", calificacion=" + calificacion + ", sesion=" + sesion + "]";
+                + ", estado=" + estado + ", calificacion=" + calificacion + ", matriculaHonor=" + matriculaHonor
+                + ", sesion=" + sesion + "]";
     }
     
 }
